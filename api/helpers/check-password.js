@@ -1,3 +1,5 @@
+var bcrypt = require("bcrypt");
+
 module.exports = {
   friendlyName: "Check password",
 
@@ -24,10 +26,12 @@ module.exports = {
     },
     notMatch: {
       description: "password not match",
+      responseType: "unauthorized",
     },
   },
 
   fn: async function ({ passwordRecord, passwordUser }, exits) {
-    passwordRecord === passwordUser ? exits.success() : exits.notMatch();
+    const check = bcrypt.compare(passwordRecord, passwordUser);
+    return check ? exits.success() : exits.notMatch();
   },
 };
