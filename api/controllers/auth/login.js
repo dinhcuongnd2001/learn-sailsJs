@@ -29,18 +29,25 @@ module.exports = {
     },
   },
 
-  fn: async function ({ email, password }) {
+  fn: async function ({ email, password }, exits) {
     const userRecord = await User.findOne({
       email,
     });
 
-    if (!userRecord) throw "notFound";
+    if (!userRecord)
+      return exits.notFound({
+        message: "Not Found",
+      });
 
     await sails.helpers.checkPassword.with({
       passwordRecord: userRecord.password,
       passwordUser: password,
     });
 
-    return userRecord;
+    return exits.success({
+      message: "Login successfully!",
+      data: userRecord,
+      statusCode: 200,
+    });
   },
 };
