@@ -1,7 +1,7 @@
 module.exports = {
   friendlyName: "Signup",
 
-  description: "Signup auth.",
+  description: "",
 
   inputs: {
     firstName: {
@@ -28,12 +28,10 @@ module.exports = {
 
   exits: {
     emailExist: {
-      description: "Your email is already registered",
       statusCode: "409",
     },
 
     serverError: {
-      description: "Something went wrong",
       statusCode: "500",
     },
   },
@@ -50,7 +48,10 @@ module.exports = {
     } catch (error) {
       console.log("error :", error);
     }
-    if (checkEmail) throw "emailExist";
+    if (checkEmail)
+      return exits.emailExist({
+        message: "Email đã được đăng ký",
+      });
 
     const userRecord = await User.create({
       firstName: inputs.firstName,
@@ -59,10 +60,13 @@ module.exports = {
       password: inputs.password,
     }).fetch();
 
-    if (!userRecord) throw "serverError";
+    if (!userRecord)
+      return exits.serverError({
+        message: "Lỗi server",
+      });
 
     return exits.success({
-      message: "User has been created successfully.",
+      message: "Tạo tài khoản thành công",
       data: userRecord,
       statusCode: 201,
     });

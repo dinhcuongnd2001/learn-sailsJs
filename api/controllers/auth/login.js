@@ -20,11 +20,9 @@ module.exports = {
 
   exits: {
     success: {
-      description: "The requesting user agent has been successfully logged in.",
       statusCode: "200",
     },
     notFound: {
-      description: "No user with the specified ID was found in the database.",
       statusCode: "404",
     },
   },
@@ -36,7 +34,7 @@ module.exports = {
 
     if (!userRecord)
       return exits.notFound({
-        message: "Not Found",
+        message: "Không tìm thấy thông tin",
       });
 
     await sails.helpers.checkPassword.with({
@@ -45,7 +43,7 @@ module.exports = {
     });
 
     return exits.success({
-      message: "Login successfully!",
+      message: "Đăng nhập thành công",
       data: userRecord,
       statusCode: 200,
     });

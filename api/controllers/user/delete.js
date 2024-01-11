@@ -5,12 +5,13 @@ module.exports = {
 
   exits: {
     success: {
-      description: "The requesting user agent has been successfully logged in.",
       statusCode: "200",
     },
     notFound: {
-      description: "No user with the specified ID was found in the database.",
       statusCode: "404",
+    },
+    invalid: {
+      statusCode: "500",
     },
   },
 
@@ -23,7 +24,7 @@ module.exports = {
 
     if (!userRecord)
       return exits.notFound({
-        message: "not found",
+        message: "Không tìm thấy thông tin",
       });
 
     const userDelete = await User.destroyOne({
@@ -32,14 +33,12 @@ module.exports = {
 
     if (userDelete) {
       return exits.success({
-        message: "Delete successfully!",
+        message: "Xóa thành công",
         data: userDelete,
-        statusCode: 200,
       });
     } else {
       return exits.invalid({
-        message: "Delete successfully!",
-        statusCode: 500,
+        message: "Xóa thất bại",
       });
     }
   },

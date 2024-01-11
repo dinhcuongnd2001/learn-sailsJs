@@ -17,7 +17,6 @@ module.exports = {
 
   exits: {
     success: {
-      description: "The requesting user agent has been successfully logged in.",
       statusCode: "200",
     },
     notFound: {
@@ -37,7 +36,7 @@ module.exports = {
 
     if (!userRecord)
       return exits.notFound({
-        message: "Not found",
+        message: "Không tìm thấy dữ liệu",
       });
 
     const dataUpdate = {
@@ -51,13 +50,12 @@ module.exports = {
       }).set(dataUpdate);
 
       return exits.success({
-        message: "Update successfully!",
+        message: "Cập nhật thành công",
         data: newData,
-        statusCode: 200,
       });
     } catch (error) {
       return exits.error({
-        message: "Update fail!",
+        message: "Cập nhật thất bại",
       });
     }
   },
