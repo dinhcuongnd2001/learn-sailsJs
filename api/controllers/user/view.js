@@ -17,28 +17,46 @@ module.exports = {
   },
 
   fn: async function (inputs, exits) {
-    const clientRedis = redis
+    const clientRedis = await redis
       .createClient()
       .on("error", (err) => console.log("Redis client error", err))
       .connect();
 
     const userId = this.req.param("userId");
 
-    const currentId = (await clientRedis).get("");
+    const userRecord = await clientRedis.get(userId);
 
-    const userRecord = await User.findOne({
-      id: userId,
-    });
+    console.log("userRecord :", typeof userRecord);
 
-    if (!userRecord)
-      return exits.notFound({
-        message: "Không tìm thấy thông tin",
+    if (userRecord) {
+      return exits.success({
+        message: "Lấy thông tin thành công",
+        data: {
+          iscached: true,
+          ...JSON.parse(userRecord),
+        },
+        statusCode: 200,
+      });
+    } else {
+      const userRecord = await User.findOne({
+        id: userId,
       });
 
-    return exits.success({
-      message: "Lấy thông tin thành công",
-      data: userRecord,
-      statusCode: 200,
-    });
+      if (!userRecord)
+        return exits.notFound({
+          message: "Không tìm thấy thông tin",
+        });
+      await clientRedis.set(userId, JSON.stringify(userRecord));
+      await clientRedis.expireAt(userId, parseInt(+new Date() / 1000) + 30);
+
+      return exits.success({
+        message: "Lấy thông tin thành công",
+        data: {
+          iscached: false,
+          ...userRecord,
+        },
+        statusCode: 200,
+      });
+    }
   },
 };
