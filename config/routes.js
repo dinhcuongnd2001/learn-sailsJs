@@ -21,6 +21,9 @@ module.exports.routes = {
   "/": { view: "pages/homepage" },
   "POST /auth/login ": { action: "auth/login" },
   "POST /auth/signup ": { action: "auth/signup" },
+  "PATCH /user/:userId ": { action: "user/update" },
+  "DELETE /user/:userId ": { action: "user/delete" },
+  "GET /user/:userId ": { action: "user/view" },
 
   /***************************************************************************
    *                                                                          *
