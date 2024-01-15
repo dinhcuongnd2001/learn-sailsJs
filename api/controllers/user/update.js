@@ -1,3 +1,5 @@
+const redis = require("redis");
+
 module.exports = {
   friendlyName: "Update Info",
 
@@ -28,6 +30,11 @@ module.exports = {
   },
 
   fn: async function ({ firstName, lastName }, exits) {
+    const clientRedis = await redis
+      .createClient()
+      .on("error", (err) => console.log("Redis client error", err))
+      .connect();
+
     const userId = this.req.param("userId");
 
     const userRecord = await User.findOne({
@@ -48,6 +55,14 @@ module.exports = {
       const newData = await User.updateOne({
         _id: userId,
       }).set(dataUpdate);
+
+      const currentData = await clientRedis.get(userId);
+
+      if (currentData) {
+        await clientRedis.set(userId, JSON.stringify(newData));
+        await clientRedis.expireAt(userId, parseInt(+new Date() / 1000) + 60);
+        clientRedis.disconnect();
+      }
 
       return exits.success({
         message: "Cập nhật thành công",

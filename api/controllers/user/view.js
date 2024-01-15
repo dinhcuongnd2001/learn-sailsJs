@@ -47,7 +47,7 @@ module.exports = {
           message: "Không tìm thấy thông tin",
         });
       await clientRedis.set(userId, JSON.stringify(userRecord));
-      await clientRedis.expireAt(userId, parseInt(+new Date() / 1000) + 30);
+      await clientRedis.expireAt(userId, parseInt(+new Date() / 1000) + 60);
 
       return exits.success({
         message: "Lấy thông tin thành công",

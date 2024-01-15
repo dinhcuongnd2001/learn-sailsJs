@@ -1,3 +1,5 @@
+const redis = require("redis");
+
 module.exports = {
   friendlyName: "Update Info",
 
@@ -16,6 +18,11 @@ module.exports = {
   },
 
   fn: async function (inputs, exits) {
+    const clientRedis = await redis
+      .createClient()
+      .on("error", (err) => console.log("Redis client error", err))
+      .connect();
+
     const userId = this.req.param("userId");
 
     const userRecord = await User.findOne({
@@ -32,6 +39,12 @@ module.exports = {
     });
 
     if (userDelete) {
+      const currentData = await clientRedis.get(userId);
+
+      if (currentData) {
+        await clientRedis.del(userId);
+        clientRedis.disconnect();
+      }
       return exits.success({
         message: "Xóa thành công",
         data: userDelete,
