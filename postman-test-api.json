@@ -1,0 +1,155 @@
+{
+	"info": {
+		"_postman_id": "660cd50c-a13e-4da0-98cf-16f7177f0324",
+		"name": "Learn-Sails",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26774825"
+	},
+	"item": [
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"test@gmail.com\",\n    \"password\": \"123456\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:1337/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1337",
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "signup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\n    \"firstName\": \"Dinh\",\n    \"lastName\": \"Cuong\",\n    \"email\": \"test1@gmail.com\",\n    \"password\": \"123456\"\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:1337/auth/signup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1337",
+					"path": [
+						"auth",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"Dinh update\",\n    \"lastName\": \"Cuong update\",\n    \"password\": \"string\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:1337/user/:useId",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1337",
+					"path": [
+						"user",
+						":useId"
+					],
+					"variable": [
+						{
+							"key": "useId",
+							"value": "659fa646ab19e94023d13c06"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:1337/user/:useId",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1337",
+					"path": [
+						"user",
+						":useId"
+					],
+					"variable": [
+						{
+							"key": "useId",
+							"value": "659e7ddd53dc4aff7feb7462"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "view",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:1337/user/:useId",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1337",
+					"path": [
+						"user",
+						":useId"
+					],
+					"variable": [
+						{
+							"key": "useId",
+							"value": "659fa646ab19e94023d13c06"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
