@@ -28,6 +28,7 @@ module.exports = {
   },
 
   fn: async function ({ email, password }, exits) {
+    console.log("jwt :", process.env.jwt);
     const userRecord = await User.findOne({
       email,
     });
